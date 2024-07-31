@@ -7,7 +7,7 @@ const usersSchema=new mongoose.Schema({
     email:String,
     myImages:[Number],
     colections:[String][Number],
-    favoraites:[Number]
+    favorites:[Number]
 })
 const userModel=mongoose.model("users",usersSchema)
 export default userModel;
