@@ -3,7 +3,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import userRoutes from './routes/users.js';  // עדכון לנתיב הנכון
 import imageRoutes from './routes/images.js';  // עדכון לנתיב הנכון
-// import { connectToDB } from './DB/mongoConnect.js';  // עדכון לנתיב הנכון
+// import { connectToDB } from './DB/mongoConect.js';  // עדכון לנתיב הנכון
+import { connectToDB } from './DB/mongoConect.js';
+
 
 // קביעת נתיבים עבור __filename ו- __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -13,7 +15,7 @@ const app = express();
 app.use(express.json());
 
 // חיבור למסד הנתונים
-// connectToDB();  // נניח שהפונקציה connectToDB עושה את החיבור למסד הנתונים
+connectToDB();  // נניח שהפונקציה connectToDB עושה את החיבור למסד הנתונים
 
 // הגדרת הנתיבים
 app.use('/users', userRoutes);
