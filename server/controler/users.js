@@ -13,15 +13,33 @@ export const createUser = async (req, res) => {
 };
 
 // Get a user by ID
+// export const getUserById = async (req, res) => {
+//     try {
+//         const user = await User.findById(req.params.id);
+//         if (!user) return res.status(404).json({ message: 'User not found' });
+//         res.json(user);
+//     } catch (err) {
+//         res.status(400).json({ message: err.message });
+//     }
+// };
+
+
 export const getUserById = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
-        if (!user) return res.status(404).json({ message: 'User not found' });
+        const user = await User.findOne({ id: req.params.id });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
         res.json(user);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
+
+
+
+
+
 
 // Update a user by ID
 export const updateUserById = async (req, res) => {
@@ -44,3 +62,6 @@ export const deleteUserById = async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 };
+
+
+

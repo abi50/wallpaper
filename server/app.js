@@ -3,9 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import userRoutes from './routes/users.js';  // עדכון לנתיב הנכון
 import imageRoutes from './routes/images.js';  // עדכון לנתיב הנכון
-// import { connectToDB } from './DB/mongoConect.js';  // עדכון לנתיב הנכון
 import { connectToDB } from './DB/mongoConect.js';
-
+import 'dotenv/config';
 
 // קביעת נתיבים עבור __filename ו- __dirname
 const __filename = fileURLToPath(import.meta.url);
