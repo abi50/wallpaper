@@ -1,13 +1,22 @@
+// models/image.js
 import mongoose from 'mongoose';
+import { getNextSequenceValue } from '../utils/counter.js';
 
-const imegeSchema=new mongoose.Schema({
-    url:String,
-    userId:Number,
-    likes:Number,
-    downloadsCounetr:Number,
-    categories:[Number]
-
+const imageSchema = new mongoose.Schema({
+    url: String,
+    userId: Number,
+    likes: Number,
+    downloadsCounter: Number,
+    categories: [Number],
+    id: { type: Number, unique: true }
 });
 
-const imegeModel=mongoose.model("imeges",imegeSchema);
-export default imegeModel;
+imageSchema.pre('save', async function (next) {
+    if (this.isNew) {
+        this.id = await getNextSequenceValue('images');
+    }
+    next();
+});
+
+const Image = mongoose.model('Image', imageSchema);
+export default Image;

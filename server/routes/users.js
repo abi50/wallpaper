@@ -1,27 +1,12 @@
+// routes/users.js
 import express from 'express';
+import { createUser, getUserById, updateUserById, deleteUserById } from '../controler/users.js';
 
 const router = express.Router();
-router.get('/route', (req, res) => {
-    res.send('Route!');
-  });
-const routesUser = (app) =>{
-    app.get('/', (req, res) => {
-        res.send('get users work!')
-      })
-      app.get('/users', (req, res) => {
-        res.send('get usersusers work!')
-      })
-      
-      app.put('/',(req,res)=>{
-          res.send("put users work")
-      });
-      app.post('/',(req,res)=>{
-          res.send('post users work')
-      });
-      app.delete('/',(req,res)=>{
-          res.send('delete users work')
-      });
-    
-}
 
-  export default routesUser;
+router.post('/', createUser);
+router.get('/:id', getUserById);
+router.put('/:id', updateUserById);
+router.delete('/:id', deleteUserById);
+
+export default router;
