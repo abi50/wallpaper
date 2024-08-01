@@ -1,15 +1,15 @@
+// routes/images.js
 import express from 'express';
-import * as imageController from '../controler/images.js';
+import { createImage, getImageById, updateImageById, deleteImageById } from '../controler/images.js';
 
 const router = express.Router();
 
-router.post('/', imageController.createImage);
-router.get('/:id', imageController.getImageById);
-router.put('/:id', imageController.updateImageById);
-router.delete('/:id', imageController.deleteImageById);
+router.post('/', createImage);
+router.get('/:id', getImageById);
+router.put('/:id', updateImageById);
+router.delete('/:id', deleteImageById);
 
 export default router;
-
 
 
 
