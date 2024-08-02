@@ -22,27 +22,8 @@ export const deleteUserById = async (id) => {
     return await User.findByIdAndDelete(id);
 };
 
-// import mongoose from "mongoose";
-
-// //מקבלת פרטים שמשתמש הכניס ומחזירה משתמש מלא
-// function extractUserData(req){
-//     const { name,id,profile, password,email}=req.body
-//     return{
-//         name,
-//         id,
-//         profile,
-//         password, 
-//         email,
-//         myImages: [],
-//         colections: [],
-//         favorites: []
-//     }
-// }
-// //מקבלת פרטים של יוזר ומחזירה מודל של יוזר
-// async function creatUser(userData){
-//     return new userModel(userData);
-// }
-
-// async function saveUser(user){
-//     await user.save();
-// }
+export const getUserCollections = async (id) => {
+    const user = await User.findOne({ id });
+    if (!user) throw new Error('User not found');
+    return user.collections;
+};

@@ -1,5 +1,5 @@
-// controllers/userController.js
 import User from '../Model/usersModel.js';
+import { deleteUserById as deleteUserByIdService, getUserCollections as getUserCollectionsService } from '../services/users.js';
 
 export const createUser = async (req, res) => {
     try {
@@ -7,7 +7,7 @@ export const createUser = async (req, res) => {
         await user.save();
         res.status(201).json(user);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(400).send(error);
     }
 };
 
@@ -15,8 +15,23 @@ export const getUserById = async (req, res) => {
     try {
         const user = await User.findOne({ id: req.params.id });
         if (!user) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
+
+export const getUserByName = async (req, res) => {
+    try {
+        const name = req.params.name;
+        const user = await User.findOne({ name });
+
+        if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
+
         res.json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -25,24 +40,32 @@ export const getUserById = async (req, res) => {
 
 export const updateUserById = async (req, res) => {
     try {
-        const user = await User.findOneAndUpdate({ id: req.params.id }, req.body, { new: true });
+        const user = await User.findOneAndUpdate({ id: req.params.id }, req.body, { new: true, runValidators: true });
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).send({ message: 'User not found' });
         }
         res.json(user);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(400).send(error);
     }
 };
 
-export const deleteUserById = async (req, res) => {
+export const deleteUserByIdController = async (req, res) => {
     try {
-        const user = await User.findOneAndDelete({ id: req.params.id });
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-        res.json({ message: 'User deleted' });
+        const { id } = req.params;
+        await deleteUserByIdService(id);
+        res.status(204).send();
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getUserCollectionsController = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const collections = await getUserCollectionsService(id);
+        res.json(collections);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };

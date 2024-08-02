@@ -1,6 +1,17 @@
 // routes/images.js
 import express from 'express';
-import { createImage, getImageById, updateImageById, deleteImageById } from '../controler/images.js';
+import { createImage,
+    getImageById, 
+    updateImageById, 
+    deleteImageById,
+    deleteImageByIdController,
+    getImageByCodeController,
+    getUserImagesController,
+    addImageToFavoritesController,
+    addImageToCollectionController,
+    getImageLikesController,
+    getFavoriteImagesController } 
+    from '../controler/images.js';
 
 const router = express.Router();
 
@@ -8,6 +19,13 @@ router.post('/', createImage);
 router.get('/:id', getImageById);
 router.put('/:id', updateImageById);
 router.delete('/:id', deleteImageById);
+router.delete('/:code', deleteImageByIdController);
+router.get('/code/:code', getImageByCodeController);
+router.get('/user/:id', getUserImagesController);
+router.post('/favorites', addImageToFavoritesController);
+router.post('/collections', addImageToCollectionController);
+router.get('/likes/:code', getImageLikesController);
+router.get('/favorites/:userId', getFavoriteImagesController);
 
 export default router;
 
