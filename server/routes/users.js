@@ -1,26 +1,22 @@
-// routes/users.js
 import express from 'express';
 import {
-    getUserById,
-    getUserByName, // ייבוא הפונקציה
     createUser,
-    updateUserById,
-    deleteUserById,
+    getUserByIdController,
+    updateUserByIdController,
     deleteUserByIdController,
-     getUserCollectionsController 
-} 
-    from '../controler/users.js';
+    getUserCollectionsController,
+    getUserImagesController,
+    addImageToCollectionController
+} from '../controler/users.js';
 
 const router = express.Router();
 
-router.post('/', createUser);
-router.get('/:id', getUserById);
-router.get('/:name', getUserByName);
-router.put('/:id', updateUserById);
-router.delete('/:id', deleteUserById);
-router.delete('/:id', deleteUserByIdController);
-router.get('/:id/collections', getUserCollectionsController);
-
-
+router.post('/users', createUser);
+router.get('/users/:id', getUserByIdController);
+router.put('/users/:id', updateUserByIdController);
+router.delete('/users/:id', deleteUserByIdController);
+router.get('/users/:id/collections', getUserCollectionsController);
+router.get('/users/:id/images', getUserImagesController);
+router.post('/users/add-image-to-collection', addImageToCollectionController);
 
 export default router;

@@ -1,5 +1,11 @@
 import User from '../Model/usersModel.js';
-import { deleteUserById as deleteUserByIdService, getUserCollections as getUserCollectionsService } from '../services/users.js';
+import { 
+    deleteUserById as deleteUserByIdService,
+    getUserCollections as getUserCollectionsService,
+    getUserById as getUserByIdService,
+    addImageToCollection as addImageToCollectionService,
+    getUserImages as getUserImagesService
+} from '../services/users.js';
 
 export const createUser = async (req, res) => {
     try {
@@ -11,36 +17,19 @@ export const createUser = async (req, res) => {
     }
 };
 
-export const getUserById = async (req, res) => {
+// בקר שמחזיר יוזר לפי ה-ID שלו
+export const getUserByIdController = async (req, res) => {
     try {
-        const user = await User.findOne({ id: req.params.id });
-        if (!user) {
-            return res.status(404).send({ message: 'User not found' });
-        }
+        const user = await getUserByIdService(req.params.id);
         res.json(user);
     } catch (error) {
-        res.status(500).send(error);
+        res.status(404).send(error.message);
     }
 };
 
-export const getUserByName = async (req, res) => {
+export const updateUserByIdController = async (req, res) => {
     try {
-        const name = req.params.name;
-        const user = await User.findOne({ name });
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        res.json(user);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-export const updateUserById = async (req, res) => {
-    try {
-        const user = await User.findOneAndUpdate({ id: req.params.id }, req.body, { new: true, runValidators: true });
+        const user = await User.findOneAndUpdate({ id: req.params.id, isDeleted: false }, req.body, { new: true, runValidators: true });
         if (!user) {
             return res.status(404).send({ message: 'User not found' });
         }
@@ -52,20 +41,41 @@ export const updateUserById = async (req, res) => {
 
 export const deleteUserByIdController = async (req, res) => {
     try {
-        const { id } = req.params;
-        await deleteUserByIdService(id);
-        res.status(204).send();
+        await deleteUserByIdService(req.params.id);
+        res.send({ message: 'User deleted successfully' });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).send(error);
     }
 };
 
+// בקר שמחזיר את כל האוספים של יוזר
 export const getUserCollectionsController = async (req, res) => {
     try {
-        const { id } = req.params;
-        const collections = await getUserCollectionsService(id);
+        const collections = await getUserCollectionsService(req.params.id);
         res.json(collections);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
+// בקר שמחזיר את כל התמונות של יוזר
+export const getUserImagesController = async (req, res) => {
+    try {
+        const images = await getUserImagesService(req.params.id);
+        res.json(images);
+    } catch (error) {
+        res.status(404).send(error.message);
+    }
+};
+
+// בקר שמוסיף תמונה לאוסף של יוזר
+export const addImageToCollectionController = async (req, res) => {
+    try {
+        const { userId, collectionName, imageId } = req.body;
+        const user = await addImageToCollectionService(userId, collectionName, imageId);
+        res.json(user);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+};
+

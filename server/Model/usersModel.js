@@ -1,4 +1,3 @@
-// models/user.js
 import mongoose from 'mongoose';
 import { getNextSequenceValue } from '../utils/counter.js';
 
@@ -10,7 +9,8 @@ const usersSchema = new mongoose.Schema({
     email: String,
     myImages: [Number],
     collections: [[String, Number]],
-    favorites: [Number]
+    favorites: [Number],
+    isDeleted: { type: Boolean, default: false } // הוספת שדה סטטוס מחיקה
 });
 
 usersSchema.pre('save', async function (next) {

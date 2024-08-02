@@ -1,4 +1,3 @@
-// models/image.js
 import mongoose from 'mongoose';
 import { getNextSequenceValue } from '../utils/counter.js';
 
@@ -8,7 +7,8 @@ const imageSchema = new mongoose.Schema({
     likes: Number,
     downloadsCounter: Number,
     categories: [Number],
-    id: { type: Number, unique: true }
+    id: { type: Number, unique: true },
+    isDeleted: { type: Boolean, default: false } // הוספת שדה סטטוס מחיקה
 });
 
 imageSchema.pre('save', async function (next) {
