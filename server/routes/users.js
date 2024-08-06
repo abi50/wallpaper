@@ -7,16 +7,16 @@ import {
     getUserCollectionsController,
     getUserImagesController,
     addImageToCollectionController
-} from '../controler/users.js';
+} from '../controler/users.js'; // ודא שהנתיב נכון
 
 const router = express.Router();
 
-router.post('/users', createUser);
-router.get('/users/:id', getUserByIdController);
-router.put('/users/:id', updateUserByIdController);
-router.delete('/users/:id', deleteUserByIdController);
-router.get('/users/:id/collections', getUserCollectionsController);
-router.get('/users/:id/images', getUserImagesController);
-router.post('/users/add-image-to-collection', addImageToCollectionController);
+router.post('/', createUser); // יצירת יוזר חדש
+router.get('/:userId', getUserByIdController); // קבלת יוזר לפי ID
+router.put('/:userId', updateUserByIdController); // עדכון יוזר לפי ID
+router.delete('/:userId', deleteUserByIdController); // מחיקת יוזר לפי ID
+router.get('/:userId/collections', getUserCollectionsController); // קבלת אוספים של יוזר
+router.get('/:userId/images', getUserImagesController); // קבלת תמונות של יוזר
+router.post('/add-image-to-collection', addImageToCollectionController); // הוספת תמונה לאוסף
 
 export default router;

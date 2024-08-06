@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+    createImage,
     deleteImageByIdController,
     getImageByCodeController,
     getUserImagesController,
@@ -10,12 +11,13 @@ import {
 
 const router = express.Router();
 
-router.delete('/images/:id', deleteImageByIdController);
+router.post('/',createImage );
+router.delete('/images/:imageId', deleteImageByIdController);
 router.get('/images/:code', getImageByCodeController);
-router.get('/users/:id/images', getUserImagesController);
+router.get('/users/:imageId/images', getUserImagesController);
 router.post('/images/add-to-favorites', addImageToFavoritesController);
 router.post('/images/add-to-collection', addImageToCollectionController);
-router.get('/users/:id/favorites', getFavoriteImagesController);
+router.get('/users/:imageId/favorites', getFavoriteImagesController);
 
 export default router;
 

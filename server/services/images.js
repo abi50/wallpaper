@@ -2,8 +2,8 @@ import Image from '../Model/imagesModel.js';
 import User from '../Model/usersModel.js';
 
 // מחיקת תמונה לפי ID (מעכשיו לא מוחק, אלא מסמן כמותאם)
-export const deleteImageByIdService = async (id) => {
-    return await Image.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+export const deleteImageByIdService = async (imageId) => {
+    return await Image.findByIdAndUpdate(imageId, { isDeleted: true }, { new: true });
 };
 
 // פעולה שמחזירה תמונה לפי קוד
@@ -17,17 +17,17 @@ export const getImageByCodeService = async (code) => {
 
 // פעולה שמחזירה את כל התמונות של יוזר
 export const getUserImagesService = async (userId) => {
-    const user = await User.findOne({ id: userId, isDeleted: false });
+    const user = await User.findOne({ userId: userId, isDeleted: false });
     if (!user) {
         throw new Error('User not found');
     }
-    const images = await Image.find({ id: { $in: user.myImages }, isDeleted: false });
+    const images = await Image.find({ imageId: { $in: user.myImages }, isDeleted: false });
     return images;
 };
 
 // הוספת תמונה למועדפים
 export const addImageToFavoritesService = async (userId, imageId) => {
-    const user = await User.findOne({ id: userId, isDeleted: false });
+    const user = await User.findOne({ userId: userId, isDeleted: false });
     if (!user) {
         throw new Error('User not found');
     }
@@ -40,7 +40,7 @@ export const addImageToFavoritesService = async (userId, imageId) => {
 
 // הוספת תמונה לאוסף
 export const addImageToCollectionService = async (userId, collectionName, imageId) => {
-    const user = await User.findOne({ id: userId, isDeleted: false });
+    const user = await User.findOne({ userId: userId, isDeleted: false });
     if (!user) {
         throw new Error('User not found');
     }
@@ -55,8 +55,8 @@ export const addImageToCollectionService = async (userId, collectionName, imageI
 };
 
 // החזרת מספר הלייקים של תמונה
-export const getImageLikesService = async (code) => {
-    const image = await Image.findOne({ code, isDeleted: false });
+export const getImageLikesService = async (imageId) => {
+    const image = await Image.findOne({ imageId:imageId, isDeleted: false });
     if (!image) {
         throw new Error('Image not found');
     }
@@ -65,10 +65,10 @@ export const getImageLikesService = async (code) => {
 
 // החזרת תמונות מועדפות של יוזר
 export const getFavoriteImagesService = async (userId) => {
-    const user = await User.findOne({ id: userId, isDeleted: false });
+    const user = await User.findOne({ userId: userId, isDeleted: false });
     if (!user) {
         throw new Error('User not found');
     }
-    const images = await Image.find({ id: { $in: user.favorites }, isDeleted: false });
+    const images = await Image.find({ imageId: { $in: user.favorites }, isDeleted: false });
     return images;
 };

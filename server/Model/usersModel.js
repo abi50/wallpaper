@@ -1,24 +1,19 @@
 import mongoose from 'mongoose';
-import { getNextSequenceValue } from '../utils/counter.js';
 
-const usersSchema = new mongoose.Schema({
-    name: String,
-    id: { type: Number, unique: true },
+const userSchema = new mongoose.Schema({
+    name: { type: String, unique: true, required: true },
+    userId: { type: Number, unique: true, required: true },
     profile: String,
-    password: String,
-    email: String,
-    myImages: [Number],
-    collections: [[String, Number]],
-    favorites: [Number],
-    isDeleted: { type: Boolean, default: false } // הוספת שדה סטטוס מחיקה
+    password: { type: String, required: true },
+    email: { type: String, unique: true, required: true },
+    myImages: { type: [Number], default: [] },
+    collections: { type: [[String, Number]], default: [] },
+    favorites: { type: [Number], default: [] },
+    isDeleted: { type: Boolean, default: false }
 });
 
-usersSchema.pre('save', async function (next) {
-    if (this.isNew) {
-        this.id = await getNextSequenceValue('users');
-    }
-    next();
-});
+// נסה להוסיף את השורה הזו כדי לוודא שהאינדקס נוצר במידה והוא לא קיים
+userSchema.index({ userId: 1 }, { unique: true });
 
-const User = mongoose.model('User', usersSchema);
+const User = mongoose.model('User', userSchema);
 export default User;

@@ -9,10 +9,49 @@ import {
     getFavoriteImagesService
 } from '../services/images.js';
 
+export const createImage = async (req, res) => {
+    try {
+        const { userName, ...imageData } = req.body;
+        if (!userName) {
+            return res.status(400).send({ message: 'userName is required' });
+        }
+
+        const user = await User.findOne({ name: userName });
+        if (!user) {
+            return res.status(400).send({ message: 'User does not exist' });
+        }
+
+        const imageId = await getNextImageId();
+        const image = new Image({ ...imageData, userName, imageId });
+        await image.save();
+        res.status(201).json(image);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+};
+
+
+
+// export const createImage = async (req, res) => {
+//     try {
+//         const { userId, ...imageData } = req.body;
+//         const user = await User.findById(userId);
+//         if (!user) {
+//             return res.status(400).send({ message: 'User does not exist' });
+//         }
+
+//         const image = new Image(imageData);
+//         await image.save();
+//         res.status(201).json(image);
+//     } catch (error) {
+//         res.status(400).send(error.message);
+//     }
+// };
+
 // פעולה שמוחקת תמונה לפי ID
 export const deleteImageByIdController = async (req, res) => {
     try {
-        await deleteImageByIdService(req.params.id);
+        await deleteImageByIdService(req.params.imageId);
         res.send({ message: 'Image deleted successfully' });
     } catch (error) {
         res.status(500).send(error);
@@ -32,7 +71,7 @@ export const getImageByCodeController = async (req, res) => {
 // פעולה שמחזירה את כל התמונות של יוזר
 export const getUserImagesController = async (req, res) => {
     try {
-        const images = await getUserImagesService(req.params.id);
+        const images = await getUserImagesService(req.params.imageId);
         res.json(images);
     } catch (error) {
         res.status(404).send(error.message);
@@ -64,7 +103,7 @@ export const addImageToCollectionController = async (req, res) => {
 // פעולה שמחזירה את כל התמונות המועדפות של יוזר
 export const getFavoriteImagesController = async (req, res) => {
     try {
-        const images = await getFavoriteImagesService(req.params.id);
+        const images = await getFavoriteImagesService(req.params.imageId);
         res.json(images);
     } catch (error) {
         res.status(404).send(error.message);
