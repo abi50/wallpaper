@@ -18,5 +18,5 @@ connectToDB();
 // app.use("/users",users);
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Example app listening on port1 ${port}`)
   });
