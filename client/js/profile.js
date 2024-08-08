@@ -3,7 +3,8 @@ let imageFlage=false
 document.addEventListener('DOMContentLoaded', async () => {
    
     // Fetch user data from the server
-    userid=localStorage.getItem("userid")
+   const userid=localStorage.getItem("userid")
+    console.log("userid: ",userid)
    url='http://localhost:3000/users/'+userid
     console.log(url)
 
@@ -36,26 +37,7 @@ console.log(data)
         alert('There was an error loading your profile data.');
     }
 });
- async function collectios()
-{ 
-    console.log(userid)
-     try{
-     const response = await fetch(url+'/collections', {
-      method: 'GET',
-     credentials: 'include', // Include cookies if necessary
-     });
-const data = await response.json();
-console.log("data")
-console.log(data)
-const collectionsList = document.getElementById('user-collections');
-if(data==[])
-    alert('ther is no collections you can make new');}
-catch (error) {
-    console.error('Error loading collection data:', error);
-   
-}
-}
-
+ 
 async function loadImages(){
     if(imageFlage==false){
         imageFlage=true
@@ -123,14 +105,9 @@ data.forEach(item => {
 
 }
 catch
-{}}
-// else{
-   
-//     while (images.firstChild) {
-//         images.removeChild(images.firstChild);
-//     }
-// imageFlage=false;
-}
+{}
+
+}}
 
 async function updateUser() {
 
@@ -164,18 +141,43 @@ catch{
     alert("Incorrect details")
 }
 }
-async function getUserCollections() {
-    try {
-        const response = await fetch(url+`collections`);
-        
+
+async function favorateImage() {
+    const userid=localStorage.getItem("userid")
+    console.log("userid: ",userid)
+   url='http://localhost:3000/users/'+userid
+    console.log(url)
+    const response = await fetch(url, {
+        method: 'GET',
+        credentials: 'include', // Include cookies if necessary
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+    }
+
+    const data = await response.json();
+console.log(data.favorites)
+    
+    let div=document.getElementById("user-collections")
+        let i=0
+       while (data.favorites[i]!=undefined){
+         let urlImage='localhost:3000/images/'+data.favorites[i].imageId;
+         const response = await fetch(urlImage, {
+            method: 'GET',
+            credentials: 'include', // Include cookies if necessary
+         });
+
         if (!response.ok) {
-            throw new Error(`Error: ${response.statusText}`);
+            throw new Error('Failed to fetch user data');
         }
 
-        const collections = await response.json();
-        console.log(collections)
-        return collections;
-    } catch (error) {
-        console.error('Failed to fetch user collections:', error);
-    }
+        const image = await response.json();
+        const imgElement = document.createElement('img');
+        imgElement.src =image.url ||"http://localhost:3000" +image.url; 
+         imgElement.alt = image.userName; 
+         div.appendChild(imgElement);
+        }
+    
+    i++
 }

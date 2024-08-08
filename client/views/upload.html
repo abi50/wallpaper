@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image</title>
+    <link rel="stylesheet" href="../css/upload.css">
+    <script src="../js/upload.js" defer></script>
+
+</head>
+<body>
+    <header>
+        <h1>Upload Image</h1>
+    </header>
+    <main>
+        <form id="uploadForm">
+            <div id="dropZone">
+                <label for="image" id="dropLabel">Drag & Drop an image here or click to select</label>
+                <input type="file"  id="image" name="image" accept="image/*" required>
+            </div>
+
+            <label for="categories">Select categories:</label>
+            <div id="categoriesContainer">
+                <!-- Categories checkboxes will be dynamically inserted here -->
+            </div>
+            
+            <button type="button" id="addCategoryBtn">Add New Category</button>
+            
+            <input type="text" id="newCategory" placeholder="New category name">
+            <button type="button" id="saveCategoryBtn">Save Category</button>
+
+            <button class="uploadBtn" type="submit">Upload Image</button>
+        </form>
+    </main>
+</body>
+
+</html>

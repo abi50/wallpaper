@@ -2,31 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="../views/site.html"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Image Download Site</title>
     <link rel="stylesheet" href="../css/site.css">
+    <script src="../js/register.js" dafer></script>
 </head>
 <body>
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body">
+                <!-- התוכן מהדף השני יטען כאן -->
+            </div>
+        </div>
+    </div>
+
+
+
     <header>
         <div class="header-content">
-            <input type="text" id="searchBar" placeholder="Search images by category...">
             <div class="profile">
-                <img src="profile-placeholder.jpg" alt="Profile Picture" class="profile-pic">
+                <button id="openModal" style="border: none; background: none; padding: 0;">
+                    <img src="../images/pexels-maxfrancis-2246476.jpg" alt="Profile Picture" class="profile-pic">
+                </button>
                 <span class="profile-name">John Doe</span>
                 <div class="profile-menu">
-                    <a href="collections.html">Collections</a>
+                    <!-- <a href="collections.html">Collections</a> -->
                     <a href="favorites.html">Favorites</a>
                 </div>
             </div>
             <button id="uploadBtn">Upload Image</button>
         </div>
+        <div id="navbarSearch" class="navbar-search">
+            <input type="text" id="searchBar" placeholder="Search images by category...">
+        </div>
     </header>
     <main>
+
+
+        <div id="searchSection" class="search-section">
+            <input type="text" id="mainSearchBar" placeholder="Search images by category...">
+        </div>
         <div id="imageContainer" class="image-container">
             <!-- Images will be dynamically inserted here -->
         </div>
     </main>
-    <script src="script.js"></script>
+    <script src="../js/site.js"></script>
 </body>
 </html>

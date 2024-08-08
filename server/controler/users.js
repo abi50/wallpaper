@@ -1,10 +1,10 @@
 import User from '../Model/usersModel.js';
 import {
     deleteUserById as deleteUserByIdService,
-    getUserCollections as getUserCollectionsService,
     getUserById as getUserByIdService,
-    addImageToCollection as addImageToCollectionService,
-    getUserImages as getUserImagesService
+    getUserImages as getUserImagesService,
+    ImageToMyImagesService
+
 } from '../services/users.js';
 import { getNextUserId } from '../utils/idGenerator.js';
 
@@ -76,22 +76,14 @@ export const updateUserByIdController = async (req, res) => {
 
 export const deleteUserByIdController = async (req, res) => {
     try {
-        await deleteUserByIdService(req.params.id);
+        await deleteUserByIdService(req.params.userId);
         res.send({ message: 'User deleted successfully' });
     } catch (error) {
         res.status(500).send(error.message);
     }
 };
 
-// export const getUserCollectionsController = async (req, res) => {
-//     try {
-//         const collections = await getUserCollectionsService(req.params.id);
-//         res.json(collections);
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };
-// GET /users/:id/collections - לקבל את כל האוספים של משתמש לפי ID
+
 export const getUserCollectionsController = async (req, res) => {
     try {
         const user = await User.findById(req.params.userId);
@@ -99,90 +91,6 @@ export const getUserCollectionsController = async (req, res) => {
             return res.status(404).send('User not found');
         }
         res.json(user.collections);
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
-};
-// POST /users/:id/collections - הוספת אוסף חדש למשתמש
-export const addCollectionToUserController = async (req, res) => {
-    try {
-        const { type, items } = req.body;
-
-        const user = await User.findById(req.params.userId);
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-
-        // הוספת האוסף החדש
-        user.collections.push({ type, items });
-        await user.save();
-
-        res.status(201).json(user.collections);
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-};
-// PUT /users/:id/collections/:type - עדכון אוסף לפי שם למשתמש
-export const updateCollectionController = async (req, res) => {
-    try {
-        const { items } = req.body;
-
-        const user = await User.findById(req.params.userId);
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-
-        const collectionIndex = user.collections.findIndex(c => c.type === req.params.type);
-        if (collectionIndex === -1) {
-            return res.status(404).send('Collection not found');
-        }
-
-        // עדכון האוסף
-        user.collections[collectionIndex].items = items;
-        await user.save();
-
-        res.json(user.collections[collectionIndex]);
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-};
-// DELETE /users/:id/collections/:type - מחיקת אוסף לפי שם למשתמש
-export const deleteCollectionController = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.userId);
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-
-        const collectionIndex = user.collections.findIndex(c => c.type === req.params.type);
-        if (collectionIndex === -1) {
-            return res.status(404).send('Collection not found');
-        }
-
-        // מחיקת האוסף
-        user.collections.splice(collectionIndex, 1);
-        await user.save();
-
-        res.status(204).send(); // מחיקת אוסף, לא מחזירים תוכן
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
-};
-
-// GET /users/:id/collections/:type - לקבל אוסף לפי שם (type) של משתמש לפי ID
-export const getCollectionByTypeController = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.userId);
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-
-        const collection = user.collections.find(c => c.type === req.params.type);
-        if (!collection) {
-            return res.status(404).send('Collection not found');
-        }
-
-        res.json(collection);
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -196,13 +104,14 @@ export const getUserImagesController = async (req, res) => {
         res.status(404).send(error.message);
     }
 };
-
-export const addImageToCollectionController = async (req, res) => {
+export const addImageToMyImagesController = async (req, res) => {
     try {
-        const { userId, collectionName, imageId } = req.body;
-        const user = await addImageToCollectionService(userId, collectionName, imageId);
+        const { userId, imageId } = req.body;
+        const user = await ImageToMyImagesService(userId, imageId);
         res.json(user);
     } catch (error) {
         res.status(400).send(error.message);
     }
 };
+
+

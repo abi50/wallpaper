@@ -1,52 +1,54 @@
 import express from 'express';
+import multer from 'multer';
 import {
+    searchImages,
+    createImageController,
+    getImagesWithPagination,
+    addLikeToPicture,
+    downloadImage,
     createImage,
     deleteImageByIdController,
     getImageByCodeController,
     getUserImagesController,
     addImageToFavoritesController,
-    addImageToCollectionController,
     getFavoriteImagesController
 } from '../controler/images.js';
 
 const router = express.Router();
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // התקייה שבה הקבצים יישמרו
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname); // שם הקובץ יהיה ייחודי
+    }
+});
 
+const upload = multer({ storage: storage });
+router.post('/upload', upload.single('image'), createImageController);
+router.get('/download/:imageId', downloadImage);
+router.get('/',  getImagesWithPagination);
+router.get('/search', searchImages);
+router.get('/:code', getImageByCodeController);
+router.post('/add-to-favorites', addImageToFavoritesController);
+router.post('/like/:imageId', addLikeToPicture);
 router.post('/',createImage );
 router.delete('/:imageId', deleteImageByIdController);
-router.get('/images/:imageId', getImageByCodeController);
+router.get('/:imageId', getImageByCodeController);
 router.get('/users/:imageId/images', getUserImagesController);
 router.post('/images/add-to-favorites', addImageToFavoritesController);
-router.post('/images/add-to-collection', addImageToCollectionController);
 router.get('/users/:imageId/favorites', getFavoriteImagesController);
-
+router.get('/download/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const filePath = path.join(__dirname, '../uploads', filename);
+    res.download(filePath, (err) => {
+        if (err) {
+            console.error('Error downloading file:', err);
+            res.status(500).send('Error downloading file');
+        }
+    });
+});
 export default router;
 
 
 
-// import express from 'express';
-// import imegeModel from '../Model/imagesModel.js';
-
-// const router = express.Router();
-// router.get('/route', (req, res) => {
-//     res.send('Route!');
-//   });
-// const routeImage = (app) =>{
-//     app.get('/', (req, res) => {
-//         res.send('get Image work!')
-//       })
-//       app.get('/images', (req, res) => {
-//         res.send('get Image Image work!')
-//       })
-      
-//       app.put('/',(req,res)=>{
-//           res.send("put  Image work")
-//       });
-//       app.post('/',(req,res)=>{
-//           res.send('post Image work')
-//       });
-//       app.delete('/',(req,res)=>{
-//           res.send('delete Image work')
-//       });
-// }
-
-//   export default routeImage;

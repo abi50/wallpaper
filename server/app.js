@@ -8,6 +8,7 @@ import userRoutes from './routes/users.js';
 import imageRoutes from './routes/images.js';
 import authRoutes from './routes/auth.js';
 import cors from 'cors';
+import categoryRoutes from './routes/category.js';
 import { env } from 'process';
 const app = express();
 app.use(express.json()); 
@@ -33,17 +34,35 @@ app.use(express.static(path.join(__dirname, '../client')));
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/images', imageRoutes);
+app.use('/category', categoryRoutes);
+
 
 // Test route to verify the server is working
-app.get('/', (req, res) => {
+app.get('/manger', (req, res) => {
     res.send( process.env.MANAGER_PASSWORD);
 });
 
-// app.post('/register', (req, res) => {
-//     const { username, email, password } = req.body;
-//     res.send(`User registered: ${username}, ${email}`);
-// });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/views/site.html'));
+});
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.get('/upload', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/views/upload.html'));
+});
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/views/site.html'));
+});
+app.get('/profile', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/views/profile.html'));
+});app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/views/register.html'));
+});
+
+app.get('/test', (req, res) => {
+    res.send('Server is working');
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;

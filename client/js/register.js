@@ -70,11 +70,12 @@ function login(){
         $.ajax(settings).done(function (response) {
             console.log("enter in ajax")
             localStorage.setItem("token", response.token);
-            console.log(response.token)
+            console.log(response.user)
             localStorage.setItem("userid", response.user.userId);
+
             localStorage.setItem("userName", response.user.name);
             console.log(response.user.name)
-            window.location.href = "../views/site.html";
+            window.location.href = "http://localhost:3000/home";
             resolve(response.user);
         }).fail(function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 405) {

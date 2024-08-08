@@ -1,84 +1,146 @@
 body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0;
+    margin: 0;
+    background-color: #f0f2f5;
 }
+
+/* Container styling */
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 30px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+/* Profile header styling */
 .profile-header {
     display: flex;
     align-items: center;
-    border-bottom: 2px solid #eee;
+    border-bottom: 2px solid #e1e4e8;
     padding-bottom: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
+
 .profile-header img {
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     margin-right: 20px;
+    border: 4px solid #007bff;
 }
+
 .profile-header h1 {
     margin: 0;
+    font-size: 24px;
+    color: #333;
 }
+
+.profile-header p {
+    margin: 5px 0;
+    color: #666;
+}
+
+/* Section styling */
 .section {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
+
 .section h2 {
-    margin-top: 0;
+    margin: 0;
+    font-size: 20px;
+    color: #007bff;
+    cursor: pointer;
 }
+
+.section h2:hover {
+    text-decoration: underline;
+}
+
+/* Collections and Images list styling */
 .collections, .images {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
+    margin: 0;
 }
+
 .collections li, .images li {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
+
+/* Image container styling */
 .image-container {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
 }
 
-/* עיצוב עבור התמונה */
+.image-container:hover {
+    background-color: #f0f5f9;
+}
+
+/* Image styling */
 .image-container img {
-    max-width: 150px;
-    max-height: 150px;
+    max-width: 160px;
+    max-height: 160px;
     object-fit: cover;
-    margin-right: 10px;
+    margin-right: 15px;
+    border-radius: 8px;
 }
 
-/* עיצוב עבור כפתור המחיקה */
+/* Button styling */
 .delete-button {
     margin-left: auto;
-    padding: 5px 10px;
+    padding: 6px 12px;
     border: none;
-    border-radius: 3px;
-    background-color: #e74c3c;
-    color: white;
+    border-radius: 6px;
+    background-color: #dc3545;
+    color: #fff;
     cursor: pointer;
     font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
-/* עיצוב עבור מספר הלייקים */
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Like count styling */
 .like-count {
     margin-left: 10px;
     font-size: 14px;
     color: #555;
 }
-/* .user-images{
-    overflow: auto; /* Enables scrollbar if needed */
-    /* border: 1px solid #ccc;
-    padding: 10px;
+
+/* Button styling */
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
- */ 
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Input fields styling */
+input {
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
