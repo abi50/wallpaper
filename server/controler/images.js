@@ -21,8 +21,7 @@ export const createImage = async (req, res) => {
             return res.status(400).send({ message: 'User does not exist' });
         }
 
-        const imageId = await getNextImageId();
-        const image = new Image({ ...imageData, userName, imageId });
+        const image = new Image({ userName, ...imageData });
         await image.save();
         res.status(201).json(image);
     } catch (error) {
@@ -61,7 +60,7 @@ export const deleteImageByIdController = async (req, res) => {
 // פעולה שמחזירה תמונה לפי קוד
 export const getImageByCodeController = async (req, res) => {
     try {
-        const image = await getImageByCodeService(req.params.code);
+        const image = await getImageByCodeService(req.params.imageId);
         res.json(image);
     } catch (error) {
         res.status(404).send(error.message);

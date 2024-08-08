@@ -2,7 +2,9 @@ import User from '../Model/usersModel.js';
 import jwt from 'jsonwebtoken';
 
 
+
 const generateToken = (user) => {
+    
     return jwt.sign({ userId: user.userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
@@ -14,7 +16,7 @@ export const registerUser = async (userData) => {
     console.log("existingUser:")
     console.log(existingUser)
    
-       
+    try{  
     
     if (existingUser==null){
 // צור את המשתמש החדש
@@ -32,8 +34,13 @@ console.log("start create new user")
     }
     else
     throw new Error('Email already exists');
+} catch (error) {
+    console.error('Error registering user:', error);
+    throw new Error('Failed to register user');
+}
     
 };
+
 
 export const loginUser = async (email, password) => {
     // חפש את המשתמש לפי דוא"ל
@@ -42,7 +49,10 @@ export const loginUser = async (email, password) => {
     if (!user) {
         throw new Error('Invalid credentials');
     }
+    console.log(password )
+    console.log(user.password )
 
+    console.log(await user.comparePassword(password) );
     // השווה את הסיסמה
     const isMatch = await user.comparePassword(password);
     console.log(isMatch)

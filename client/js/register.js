@@ -24,7 +24,8 @@ console.log("enters in adduser")
             console.log("start ajax")
            console.log(response.token)
             localStorage.setItem("token", response.token);
-            localStorage.setItem("name", response.user.name);
+            localStorage.setItem("userid", response.user.userId);
+            localStorage.setItem("userName", response.user.name);
             console.log("add saccssec")
             window.location.href = "../views/site.html";
         })
@@ -37,40 +38,54 @@ console.log("enters in adduser")
             }users
         });
 
+
+
+
+
+
 }
 function login(){
     console.log("enter in login")
     let name = document.getElementById('username-login').value;
     let password = document.getElementById('password-login').value;
+    let email = document.getElementById('email-login').value;
 
     var settings = {
-        "url": "http://localhost:3000/login",
+        "url": "http://localhost:3000/auth/login",
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
         },
         "data": JSON.stringify({
 
-            "email": email,
-            "password": password
+            "name": name,
+            "password": password,
+            "email":email
+
+        
         }),
     };
     console.log(settings)
     return new Promise((resolve, reject) => {
         $.ajax(settings).done(function (response) {
+            console.log("enter in ajax")
             localStorage.setItem("token", response.token);
-            localStorage.setItem("name", response.user.name);
-            window.location.href = "../html/homePage.html";
+            console.log(response.token)
+            localStorage.setItem("userid", response.user.userId);
+            localStorage.setItem("userName", response.user.name);
+            console.log(response.user.name)
+            window.location.href = "../views/site.html";
             resolve(response.user);
         }).fail(function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 405) {
                 alert("סיסמה שגויה");
             }
             if (jqXHR.status === 404) {
-                alert("לא נמצא משתמש עבור האימייל שהוקש, נסה שוב!");
+                alert("לא נמצא משתמש עבור המייל  שהוקש, נסה שוב!");
             }
             console.error("Error:", errorThrown);
             reject(errorThrown);
         });
     });
 }
+

@@ -5,32 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../js/register.js"></script>
+    <link rel="stylesheet" href="../css/register.css">
     <title>Register</title>
+   
 </head>
 <body>
-    <h1>Register</h1>
-    
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <label for="profile">profile:</label>
-        <input type="text" id="profile" name="profile" required>
-        <br>
-        <button type="submit" onclick="addUser()">Register</button>
-        <h1>login</h1>
-        <label for="username">Username:</label>
-        <input type="text" id="username-login" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password-login" name="password" required>
-        <br>
-        <button type="submit" onclick="login()">Register</button>
-    
+    <div class="container">
+        <div class="box">
+            <h1>Signup</h1>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <label for="profile">Profile:</label>
+            <input type="text" id="profile" name="profile" required>
+            <button type="submit" onclick="addUser()">Signup</button>
+        </div>
+        <div class="box">
+            <h1>Login</h1>
+            <label for="username-login">Username:</label>
+            <input type="text" id="username-login" name="username" required>
+            <label for="password-login">Password:</label>
+            <input type="password" id="password-login" name="password" required>
+            <label for="email-login">Email:</label>
+            <input type="email" id="email-login" name="email" required>
+            <button type="submit" onclick="login()">Login</button>
+        </div>
+    </div>
 </body>
 </html>

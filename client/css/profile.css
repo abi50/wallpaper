@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.profile-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+.profile-header img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+.profile-header h1 {
+    margin: 0;
+}
+.section {
+    margin-bottom: 20px;
+}
+.section h2 {
+    margin-top: 0;
+}
+.collections, .images {
+    list-style-type: none;
+    padding: 0;
+}
+.collections li, .images li {
+    margin-bottom: 10px;
+}
+.image-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* עיצוב עבור התמונה */
+.image-container img {
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+/* עיצוב עבור כפתור המחיקה */
+.delete-button {
+    margin-left: auto;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #e74c3c;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* עיצוב עבור מספר הלייקים */
+.like-count {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #555;
+}
+/* .user-images{
+    overflow: auto; /* Enables scrollbar if needed */
+    /* border: 1px solid #ccc;
+    padding: 10px;
+}
+ */ 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/profile.js"></script>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <img id="profile-pic" src="" alt="Profile Picture">
+            <div>
+                <h1 id="user-name">User Name</h1>
+                <p id="user-email">user@example.com</p>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Profile Details</h2>
+            <p><strong>Name:</strong> <input id="profile-name" ></p>
+            <p><strong>Email:</strong> <input id="profile-email" ></p>
+            <p><strong>Password:</strong> <input id="profile-password" ></p>
+            <button onclick="updateUser()">update</button>
+        </div>
+        <div class="section">
+            <h2 onclick="getUserCollections()">Collections</h2>
+            <div id="user-collections" class="collections"></div>
+                <!-- Collections will be dynamically inserted here -->
+        
+        <div class="section">
+            <h2 onclick="loadImages()">my Uploaded Images</h2>
+            
+            <ul id="user-images" class="images">
+                <!-- Images will be dynamically inserted here -->
+            </ul>
+            
+        </div>
+    </div>
+    <script src="profile.js"></script>
+</body>
+</html>

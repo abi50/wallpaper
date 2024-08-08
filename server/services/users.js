@@ -1,4 +1,5 @@
 import User from '../Model/usersModel.js';
+import Image from '../Model/imagesModel.js';
 
 // יצירת יוזר חדש
 export const createUser = async (userData) => {
@@ -26,8 +27,19 @@ export const getUserCollections = async (userId) => {
 };
 
 // פעולה שמחזירה יוזר לפי ה-ID שלו
+// export const getUserById = async (userId) => {
+//     console.log(userId)
+//     const user = await User.findOne({ id: userId, isDeleted: false });
+//     console.log(user)
+//     if (!user) {
+//         throw new Error('User not found');
+//     }
+//     return user;
+// };
 export const getUserById = async (userId) => {
-    const user = await User.findOne({ id: userId, isDeleted: false });
+    console.log(userId);
+    const user = await User.findOne({ userId: userId, isDeleted: false });
+    console.log(user);
     if (!user) {
         throw new Error('User not found');
     }
@@ -56,11 +68,13 @@ export const addImageToCollection = async (userId, collectionName, imageId) => {
 
 // פעולה שמחזירה את כל התמונות של יוזר
 export const getUserImages = async (userId) => {
-    const user = await User.findOne({ id: userId, isDeleted: false });
+    const user = await User.findOne({ userId: userId, isDeleted: false });
+    console.log('user in servise')
+    console.log(user)
     if (!user) {
         throw new Error('User not found');
     }
-    const images = await Image.find({ id: { $in: user.myImages }, isDeleted: false });
+    const images = await Image.find({ imageId: { $in: user.myImages }, isDeleted: false });
     return images;
 };
 

@@ -12,8 +12,8 @@ import {
 const router = express.Router();
 
 router.post('/',createImage );
-router.delete('/images/:imageId', deleteImageByIdController);
-router.get('/images/:code', getImageByCodeController);
+router.delete('/:imageId', deleteImageByIdController);
+router.get('/images/:imageId', getImageByCodeController);
 router.get('/users/:imageId/images', getUserImagesController);
 router.post('/images/add-to-favorites', addImageToFavoritesController);
 router.post('/images/add-to-collection', addImageToCollectionController);

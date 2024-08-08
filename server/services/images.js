@@ -3,8 +3,9 @@ import User from '../Model/usersModel.js';
 
 // מחיקת תמונה לפי ID (מעכשיו לא מוחק, אלא מסמן כמותאם)
 export const deleteImageByIdService = async (imageId) => {
-    return await Image.findByIdAndUpdate(imageId, { isDeleted: true }, { new: true });
+    return await Image.findByIdAndUpdate({ imageId : imageId, isDeleted: true }, { new: true });
 };
+
 
 // פעולה שמחזירה תמונה לפי קוד
 export const getImageByCodeService = async (code) => {
@@ -72,3 +73,6 @@ export const getFavoriteImagesService = async (userId) => {
     const images = await Image.find({ imageId: { $in: user.favorites }, isDeleted: false });
     return images;
 };
+
+
+

@@ -31,17 +31,7 @@ export const login = async (req, res) => {
 
 
 
-// import { registerUser, loginUser } from '../services/auth.js';
 
-// export async function register(req, res) {
-//     try {
-//         const { name, email, password } = req.body;
-//         const { token, user } = await registerUser(name, email, password);
-//         res.status(201).json({ token, user });
-//     } catch (error) {
-//         res.status(400).json({ error: error.message });
-//     }
-// }
 
 // export async function login(req, res) {
 //     try {

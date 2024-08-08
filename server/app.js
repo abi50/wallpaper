@@ -8,6 +8,7 @@ import userRoutes from './routes/users.js';
 import imageRoutes from './routes/images.js';
 import authRoutes from './routes/auth.js';
 import cors from 'cors';
+import { env } from 'process';
 const app = express();
 app.use(express.json()); 
 // Load environment variables
@@ -34,8 +35,8 @@ app.use('/users', userRoutes);
 app.use('/images', imageRoutes);
 
 // Test route to verify the server is working
-app.get('/test', (req, res) => {
-    res.send('Server is working');
+app.get('/', (req, res) => {
+    res.send( process.env.MANAGER_PASSWORD);
 });
 
 // app.post('/register', (req, res) => {
