@@ -19,6 +19,7 @@ header {
     color: white;
 }
 
+
 .header-content {
     display: flex;
     align-items: center;
@@ -173,7 +174,7 @@ header {
     left: 0;
     width: 300px;
     height: auto;
-    background: rgba(0, 0, 0, 0.5); 
+    /* background: rgba(0, 0, 0, 0.5);  */
     color: white; 
     border-radius: 8px; 
     justify-content: space-between;
@@ -196,8 +197,13 @@ header {
 }
 
 .image-actions button:hover {
-    background: rgba(255, 255, 255, 0);
+    opacity: 1;
 }
+    /* background: rgba(255, 255, 255, 0); */
+
+/* .image-actions img:hover {
+    opacity: 1;
+} */
 
 .image-actions img {
     width: 24px;

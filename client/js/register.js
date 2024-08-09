@@ -1,49 +1,217 @@
-function addUser() {
-console.log("enters in adduser")
+
+
+let uploadedProfileImage = null;
+
+document.getElementById('profile-image').addEventListener('change', function(event) {
+    uploadedProfileImage = event.target.files[0];
+});
+
+async function uploadProfileImage() {
+    if (!uploadedProfileImage) {
+        return null; // אם אין תמונה נבחרה, מחזירים null
+    }
+    console.log(uploadedProfileImage)
+    const formData = new FormData();
+    formData.append('image', uploadedProfileImage);
+
+    try {
+        const response = await fetch('http://localhost:3000/images/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            return result.imageUrl; // מחזירים את URL התמונה
+        } else {
+            const errorData = await response.json();
+            console.error(`Failed to upload image: ${errorData.error}`);
+            alert(`Failed to upload image: ${errorData.error}`);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to upload image');
+        return null;
+    }
+}
+
+
+
+async function home() {
+    window.location.href='http://localhost:3000/home';
+}
+
+
+
+
+async function addUser() {
+    console.log("enters in adduser");
+
     let name = document.getElementById('username').value;
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
-    let profile = document.getElementById('profile').value;
+    let profileImage = document.getElementById('profileImage').files[0]; // Assuming the profile image is uploaded through a file input
 
-    var settings = {
-        "url": "http://localhost:3000/auth/register",
-        "method": "POST",
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-            "name": name,
-            "email": email,
-            "password": password,
-            "profile": profile
-        }),
+    if (!profileImage) {
+        alert("Please select a profile image.");
+        return;
     }
-    console.log(settings);
-    $.ajax(settings)
-        .done(async function (response) {
-            console.log("start ajax")
-           console.log(response.token)
-            localStorage.setItem("token", response.token);
-            localStorage.setItem("userid", response.user.userId);
-            localStorage.setItem("userName", response.user.name);
-            console.log("add saccssec")
-            window.location.href = "../views/site.html";
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR.status);
-            if (jqXHR.status === 400) {
-                alert("הקש מייל שאינו קיים במערכת, ההוספה נכשלה");
-            } else {
-                console.error("Error:", errorThrown);
-            }users
+
+    console.log(profileImage.name);
+
+    // Upload the profile image
+    const formData = new FormData();
+    formData.append('image', profileImage);
+    // formData.append('categories',[]);
+
+    formData.append('userName',name);
+    formData.append('isDeleted',true);
+
+
+    try {
+        // const imageUploadResponse = await fetch('http://localhost:3000/images/upload', {
+        //     method: 'POST',
+        //     body: formData
+        // });
+
+        // if (!imageUploadResponse.ok) {
+        //     throw new Error('Image upload failed');
+        // }
+        console.log("Sending request to server");
+        const response = await fetch('http://localhost:3000/images/upload', {
+            method: 'POST',
+            body: formData
+        });
+        console.log("Request sent, awaiting response");
+        if (response.ok) 
+            alert('Image uploaded successfully');
+           
+
+        // const imageUploadData = await imageUploadResponse.json();
+        // const profileImageUrl = imageUploadData.imageUrl;
+
+        // Save user info along with the profile image URL
+        const userResponse = await fetch('http://localhost:3000/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                password: password,
+                profile: profileImage.name
+            })
         });
 
+        if (!userResponse.ok) {
+            throw new Error('User registration failed');
+        }
 
+        const userData = await userResponse.json();
+        console.log("start fetch");
 
+        localStorage.setItem("token", userData.token);
+        localStorage.setItem("userid", userData.user.userId);
+        localStorage.setItem("userName", userData.user.name);
+        localStorage.setItem("profile", profileImage.name);
 
-
-
+        console.log("add success");
+        window.location.href = "../views/site.html";
+        
+    } catch (error) {
+        if (error.message === 'Image upload failed') {
+            console.error("Image upload error:", error);
+        } else if (error.message === 'User registration failed') {
+            alert("Please enter a valid email, user creation failed");
+        } else {
+            console.error("Error:", error);
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function addUser() {
+//     console.log("enters in adduser");
+//     let name = document.getElementById('username').value;
+//     let email = document.getElementById('email').value;
+//     let password = document.getElementById('password').value;
+//     let profileImage = document.getElementById('profileImage').files[0]; // Assuming the profile image is uploaded through a file input
+
+//     if (!profileImage) {
+//         alert("Please select a profile image.");
+//         return;
+//     }
+//     console.log(profileImage.name);
+//     // Upload the profile image
+//     const formData = new FormData();
+//     formData.append('image', profileImage);
+
+//     $.ajax({
+//         url: 'http://localhost:3000/images/upload',
+//         method: 'POST',
+//         data: formData,
+//         contentType: false,
+//         processData: false,
+//         success: function (response) {
+//             // Save user info along with the profile image URL
+//             const profileImageUrl = response.imageUrl;
+//             console.log("ghjkl., bnm");
+
+//             $.ajax({
+//                 url: "http://localhost:3000/auth/register",
+//                 method: "POST",
+//                 headers: {
+//                     "Content-Type": "application/json"
+//                 },
+//                 data: JSON.stringify({
+//                     "name": name,
+//                     "email": email,
+//                     "password": password,
+//                     "profile": profileImageUrl
+//                 }),
+//                 success: function (response) {
+//                     console.log("start ajax");
+//                     localStorage.setItem("token", response.token);
+//                     localStorage.setItem("userid", response.user.userId);
+//                     localStorage.setItem("userName", response.user.name);
+//                     localStorage.setItem("profile", profileImageUrl);
+//                     console.log("add success");
+//                     window.location.href = "../views/site.html";
+//                 },
+//                 error: function (jqXHR, textStatus, errorThrown) {
+//                     console.log(jqXHR.status);
+//                     if (jqXHR.status === 400) {
+//                         alert("Please enter a valid email, user creation failed");
+//                     } else {
+//                         console.error("Error:", errorThrown);
+//                     }
+//                 }
+//             });
+//         },
+//         error: function (jqXHR, textStatus, errorThrown) {
+//             console.error("Image upload error:", errorThrown);
+//         }
+//     });
+// }
+
 function login(){
     console.log("enter in login")
     let name = document.getElementById('username-login').value;
@@ -75,6 +243,8 @@ function login(){
 
             localStorage.setItem("userName", response.user.name);
             console.log(response.user.name)
+            localStorage.setItem("profile", response.user.profile);
+            console.log(response.user.profile);
             window.location.href = "http://localhost:3000/home";
             resolve(response.user);
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -89,4 +259,3 @@ function login(){
         });
     });
 }
-

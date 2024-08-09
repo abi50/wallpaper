@@ -1,4 +1,4 @@
-body {
+/* body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 0;
     margin: 0;
@@ -143,4 +143,173 @@ input {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 10px;
+} 
+
+
+
+
+
+
+
+
+
+/* Profile header styling */
+.profile-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #e1e4e8;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    position: relative; /* Allows absolute positioning of logout button */
+}
+.profile-header {
+    position: relative; /* יש להגדיר את ה-container של הכפתורים כ- relative */
+    padding: 20px; /* ניתן להוסיף padding כדי למקם טוב יותר את הכפתורים */
+}
+
+#logout-button {
+    position: absolute; /* למקם את הכפתור בצורה יחסית ל-container */
+    top: 10px; /* מרחק מלמעלה */
+    right: 10px; /* מרחק מצד ימין */
+    width: 50px; /* רוחב הכפתור */
+    height: 50px; /* גובה הכפתור */
+    border-radius: 50%; /* עיגול הכפתור */
+    background-color: #f00; /* צבע רקע (לשינוי לפי הצורך) */
+    color: #fff; /* צבע טקסט */
+    border: none; /* ללא גבולות */
+    cursor: pointer; /* סמן ליד */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* צל קטן להדגשה */
+    outline: none; /* ללא גבול סביב הכפתור */
+}
+
+#home-button {
+    position: absolute; /* למקם את הכפתור בצורה יחסית ל-container */
+    top: 70px; /* מרחק מלמעלה (מתחת ל-logout-button) */
+    right: 10px; /* מרחק מצד ימין */
+    width: 50px; /* רוחב הכפתור */
+    height: 50px; /* גובה הכפתור */
+    border-radius: 50%; /* עיגול הכפתור */
+    background-image: url('../images/home.png'); /* תמונת הרקע */
+    background-size: cover; /* התמונה תכסה את כל הכפתור */
+    background-position: center; /* מיקום התמונה במרכז */
+    border: none; /* ללא גבולות */
+    cursor: pointer; /* סמן ליד */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* צל קטן להדגשה */
+    outline: none; /* ללא גבול סביב הכפתור */
+}
+
+/* הוספת סגנון לעכבר כשהוא מרחף מעל הכפתור */
+#logout-button:hover, #home-button:hover {
+    opacity: 0.8; /* שינוי השקיפות בעת ריחוף */
+}
+
+/* בסיסי - סידור ותצוגה כללית */
+#image-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+}
+
+/* פריט תמונה */
+.image-item {
+    position: relative;
+    width: 200px; /* גודל קבוע למדיום */
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    transition: transform 0.3s;
+}
+
+.image-item:hover {
+    transform: scale(1.05);
+}
+
+/* תמונה */
+.image-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* כפתורים לפעולות */
+.image-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+}
+
+.image-actions button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.image-actions img {
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.image-actions img:hover {
+    opacity: 1;
+}
+
+/* ספירת הורדות ולייקים */
+.image-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+}
+
+.image-info span {
+    font-size: 12px;
+}
+
+/* רספונסיביות */
+@media (max-width: 768px) {
+    .image-item {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .image-actions img, .image-info img {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .image-info span {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-item {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .image-actions img, .image-info img {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .image-info span {
+        font-size: 8px;
+    }
 }

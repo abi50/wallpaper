@@ -9,9 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let page = 1;
     const limit = 10;
     let loading = false;  // חוסם למניעת טעינה כפולה
-    if(localStorage.getItem("userid")!=undefined){
+    if(localStorage.getItem("userid")!=null){
         profileName.innerHTML=localStorage.getItem("userName");
-        profilePic.src=localStorage.getItem("profile")
+        console.log("../uploads/"+ localStorage.getItem("profile"));
+        const pat="/uploads/"+localStorage.getItem("profile");
+        console.log(pat);
+        profilePic.src = `http://localhost:3000${pat}`;
+        // 1723172125051-patrick-aesthetic-mwk3787ydhbz4rsf.jpg
     }
     else{
         profilePic.src ="../images/profile.png";
@@ -69,12 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayImages(images) {
         images.forEach(image => {
             const imageItem = document.createElement('div');
-            imageItem.onclick=openModelImage(image);
             imageItem.className = 'image-item';
-
+            // imageItem.onclick = () => openModalImage(image);
             const img = document.createElement('img');
             img.src = `http://localhost:3000${image.url}`;
-
+            img.addEventListener('contextmenu', (event) => {
+                event.preventDefault(); // למנוע את תפריט ההקשר הרגיל של הדפדפן
+                openModalImage(image);
+            });
             const actions = document.createElement('div');
             actions.className = 'image-actions';
             actions.innerHTML = `
@@ -119,87 +125,159 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// הצגת המודאל וטעינת הדף השני
-const modal = document.getElementById("myModal");
-const openModalButton = document.getElementById("openModal");
-const closeModalButton = document.getElementsByClassName("close")[0];
-const modalBody = document.getElementById("modal-body");
-openModalButton.addEventListener("click", openModal)
-
-
-
-closeModalButton.onclick = function() {
-    modal.style.display = "none";
-}
-
-// סגירת המודאל בלחיצה מחוץ לחלונית
-window.onclick = function(event) {
-    if (event.target == modal) {
+    // הצגת המודאל וטעינת הדף השני
+    const modal = document.getElementById("myModal");
+    const openModalButton = document.getElementById("openModal");
+    const closeModalButton = document.getElementsByClassName("close")[0];
+    const modalBody = document.getElementById("modal-body");
+    openModalButton.addEventListener("click", openModal)
+    
+    
+    
+    closeModalButton.onclick = function() {
         modal.style.display = "none";
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    // סגירת המודאל בלחיצה מחוץ לחלונית
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    
 
 
 });
-function openModalImage(image){
+// function loadScript(url) {
+//     console.log("in script");
+//     console.log(url);
+//     const script = document.createElement('script');
+//     script.src = url;
+//     script.defer = true;
+//     document.head.appendChild(script);
+// }
+function loadScript(url, callback) {
+    const script = document.createElement('script');
+    script.src = url;
+    script.defer = true;
+    script.onload = () => {
+        console.log(`${url} script loaded successfully.`);
+        if (callback) callback();
+    };
+    script.onerror = () => console.error(`Failed to load script ${url}`);
+    document.head.appendChild(script);
+}
+
+function openModalImage(image) {
     const modalBody = document.getElementById("modal-body");
     const modal = document.getElementById("myModal");
-    window.location.href = 'http://localhost:3000/users';
-    loadImages(image)
-}
-async function loadImages(onimage) {
-   
-        document.getElementById('main-image').src = onimage.url;
-        document.getElementById('username').textContent = onimage.username;
-        document.getElementById('user-profile-pic').src = onimage.userProfilePic;
-        document.getElementById('likes').textContent = onimage.likes;
-        
-        document.getElementById('download-button').addEventListener('click', async() => {
-            try {
-                const response = await fetch(`http://localhost:3000/images/download/${imageId}`);
-                if (response.ok) {
-                    // Create a link element, set its href to the URL of the file, and simulate a click
-                    const link = document.createElement('a');
-                    link.href = `http://localhost:3000/images/download/${imageId}`;
-                    link.download = `${imageId}.jpg`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                } else {
-                    console.error('Failed to download image:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Error downloading image:', error);
-            }
-        });
-     
-}
-function openModal() {
-const modalBody = document.getElementById("modal-body");
-const modal = document.getElementById("myModal");
 
-    if(localStorage.getItem("userid")!=null){
-        window.location.href = 'http://localhost:3000/profile';
-    }
-    fetch('http://localhost:3000/register')  // נניח שהדף השני נקרא register.html והוא נמצא באותה תיקייה
+    localStorage.setItem("selectedImageId", image.imageId);
+
+    fetch('http://localhost:3000/image')
         .then(response => response.text())
         .then(data => {
             modalBody.innerHTML = data;
             modal.style.display = "block";
+
+            // קורא לפונקציה שתשלים את המשימה
+            loadScript('../js/image.js', () => {
+                // אם יש פונקציה בשם initImageDetails שצריכה לרוץ לאחר טעינת הסקריפט
+                if (typeof initImageDetails === 'function') {
+                    initImageDetails();
+                }
+            });
         });
 }
+
+
+
+function openModal() {
+    const modalBody = document.getElementById("modal-body");
+    const modal = document.getElementById("myModal");
+    
+        if(localStorage.getItem("userid")!=null){
+            window.location.href = 'http://localhost:3000/profile';
+        }
+        fetch('http://localhost:3000/register')  // נניח שהדף השני נקרא register.html והוא נמצא באותה תיקייה
+            .then(response => response.text())
+            .then(data => {
+                modalBody.innerHTML = data;
+                modal.style.display = "block";
+            });
+    }
+
+
+// function openModalImage(image){
+//      const modalBody = document.getElementById("modal-body");
+//      const modal = document.getElementById("myModal");
+//     // fetch('http://localhost:3000/image')  
+//     // .then(response => response.text())
+//     // .then(data => {
+//     //     modalBody.innerHTML = data;
+//     //     modal.style.display = "block";
+//     // });
+//     // window.location.href = 'http://localhost:3000/image';
+//     // loadImage(image)
+
+//     // const imageUrl = `http://localhost:3000/image?imageId=${image.imageId}&imageUrl=${encodeURIComponent(image.url)}`;
+//     localStorage.setItem("selectedImageId", image.imageId);
+//     // const imageUrl = `http://localhost:3000/image?imageId=${image.imageId}`;
+//     fetch('http://localhost:3000/image')
+//         .then(response => response.text())
+//         .then(data => {
+//             modalBody.innerHTML = data;
+//             modal.style.display = "block";
+//         });
+//         console.log("do script");
+
+//         const script = document.createElement('script');
+//             script.src = '../js/image.js';
+//             script.defer = true;
+//             script.onload = function() {
+//                 console.log("Image script loaded successfully.");
+//             };
+//             script.onerror = function() {
+//                 console.error("Failed to load the image script.");
+//             };
+//             document.head.appendChild(script);
+
+// }
+
+
+// async function loadImage(onimage) {
+   
+//         document.getElementById('main-image').src = onimage.url;
+//         document.getElementById('username').textContent = onimage.username;
+//         document.getElementById('user-profile-pic').src = onimage.userProfilePic;
+//         document.getElementById('likes').textContent = onimage.likes;
+      
+
+//         document.getElementById('download-button').addEventListener('click', async() => {
+//             // try {
+//             //     const response = await fetch(`http://localhost:3000/images/download/${imageId}`);
+//             //     if (response.ok) {
+//             //         // Create a link element, set its href to the URL of the file, and simulate a click
+//             //         const link = document.createElement('a');
+//             //         link.href = `http://localhost:3000/images/download/${imageId}`;
+//             //         link.download = `${imageId}.jpg`;
+//             //         document.body.appendChild(link);
+//             //         link.click();
+//             //         document.body.removeChild(link);
+//             //     } else {
+//             //         console.error('Failed to download image:', response.statusText);
+//             //     }
+//             // } catch (error) {
+//             //     console.error('Error downloading image:', error);
+//             // }
+
+//             downloadImage(onimage.imageId);
+//         });
+     
+// }
+
+
+
 
 const likeImage = async (event, imageId) => {
     try {
@@ -230,7 +308,8 @@ const downloadImage = async (imageId) => {
     if(localStorage.getItem("userid")==null){
         openModal();
     }
-    else{
+    else
+    {
          try {
      
              const response = await fetch(`http://localhost:3000/images/download/${imageId}`);
@@ -242,10 +321,29 @@ const downloadImage = async (imageId) => {
                  document.body.appendChild(link);
                  link.click();
                  document.body.removeChild(link);
-             } else {
+
+                 const response = await fetch(`http://localhost:3000/images/getImageById/${imageId}`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+        
+                if (!response.ok) {
+                    throw new Error('Failed to fetch image');
+                }
+        
+                const image = await response.json();
+                await fetch(`http://localhost:3000/images/increment-downloads/${image.imageId}`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+        
+            }
+        
+             else {
                  console.error('Failed to download image:', response.statusText);
              }
-         } catch (error) {
+         } 
+         catch (error) {
              console.error('Error downloading image:', error);
          }
     }
@@ -257,15 +355,18 @@ const  favoriteImage = async ( imageId) => {
     }
     else{
            try {
-               const userId = localStorage.getItem("userId");
+               const userIdd = Number(localStorage.getItem("userid"));
+               console.log(userIdd)
+               console.log(imageId)
+            //    const send= { "userId": userIdd, "imageId":}
                const response = await fetch('http://localhost:3000/images/add-to-favorites', {
                    method: 'POST',
                    headers: {
                        'Content-Type': 'application/json',
                    },
-                   body: JSON.stringify({ userId, imageId}),
+                   body: JSON.stringify({ userId: userIdd, imageId }),
                });
-
+                console.log(response)
                if (response.ok) {
                    const updatedImage = await response.json();
                    // // const button=document.getElementById("likeButton");
@@ -290,5 +391,10 @@ function addToCollection(id) {
 }
 
 document.getElementById('uploadBtn').addEventListener('click', () => {
+    if(localStorage.getItem("userid")==null){
+        openModal();
+    }
+    else{
     window.location.href = 'http://localhost:3000/upload';
+    }
 });

@@ -35,7 +35,6 @@ export const createUser = async (req, res) => {
         res.status(400).send(error.message);
     }
 };
-
 export const getUserByIdController = async (req, res) => {
     try {
         console.log("id=");

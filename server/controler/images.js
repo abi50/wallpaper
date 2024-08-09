@@ -1,6 +1,6 @@
 import Image from '../Model/imagesModel.js';
 import User from '../Model/usersModel.js';
-
+import fs from 'fs';
 import { 
     getAllImages,
     getImagesByCategory,
@@ -22,6 +22,8 @@ const __dirname = path.dirname(__filename);
 
 export const downloadImage = async (req, res) => {
     try {
+        console.log("nhjfdkjv");
+
         const { imageId } = req.params;
         console.log(imageId);
 
@@ -34,7 +36,7 @@ export const downloadImage = async (req, res) => {
         }
 
         // Adjust the file path based on where the image is stored
-        const filePath = path.join(__dirname, image.url);
+        const filePath = path.join(__dirname, "../", image.url);
         console.log(filePath);
         
         res.download(filePath, (err) => {
@@ -47,6 +49,8 @@ export const downloadImage = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+
 export const createImageController = async (req, res) => {
     try {
         const image = await createImageService(req);
@@ -89,7 +93,21 @@ export const deleteImageByIdController = async (req, res) => {
 // פעולה שמחזירה תמונה לפי קוד
 export const getImageByCodeController = async (req, res) => {
     try {
+        console.log(req.params.imageId);
+
         const image = await getImageByCodeService(req.params.imageId);
+        res.json(image);
+    } catch (error) {
+        res.status(404).send(error.message);
+    }
+};
+
+export const getImageBtId = async (req, res) => {
+    try {
+        console.log("in getImageBtId");
+
+        const { imageId } = req.params;
+        const image = await getImageByCodeService(imageId);
         res.json(image);
     } catch (error) {
         res.status(404).send(error.message);
@@ -219,5 +237,65 @@ export const addLikeToPicture = async (req, res) => {
         // טיפול בשגיאות
         console.error('Error adding like:', error);
         res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+
+
+
+
+// Get image by imageId
+export const getImageById = async (req, res) => {
+    try {
+        const { imageId } = req.params;
+        const image = await Image.findOne({ imageId: parseInt(imageId), isDeleted: false });
+        if (!image) {
+            return res.status(404).json({ error: 'Image not found' });
+        }
+        res.json(image);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+// Get image by path
+export const getImageByPath = async (req, res) => {
+    try {
+        const { url } = req.query; // Assuming the path is sent as a query parameter
+        if (!url) {
+            return res.status(400).json({ error: 'Image URL is required' });
+        }
+        const imagePath = path.join(__dirname, '..', url);
+        fs.access(imagePath, fs.constants.F_OK, (err) => {
+            if (err) {
+                return res.status(404).json({ error: 'Image not found' });
+            }
+            res.sendFile(imagePath);
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+
+export const incrementDownloadCounter = async (req, res) => {
+    try {
+        const { imageId } = req.params;
+        const image = await Image.findOneAndUpdate(
+            { imageId: imageId },
+            { $inc: { downloadsCounter: 1 } },  // הגדלת מונה ההורדות ב-1
+            { new: true }
+        );
+
+        if (!image) {
+            return res.status(404).json({ error: 'Image not found' });
+        }
+
+        res.json({ success: true, downloadsCounter: image.downloadsCounter });
+    } catch (error) {
+        console.error('Error incrementing download counter:', error);
+        res.status(500).json({ error: 'Server error' });
     }
 };

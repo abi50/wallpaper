@@ -1,3 +1,4 @@
+/* Existing Styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #e9ecef;
@@ -46,7 +47,8 @@ label {
 /* Input fields styling */
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="file"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -79,6 +81,7 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
@@ -89,4 +92,25 @@ button:hover {
         max-width: 100%;
         margin-bottom: 20px; /* Space between stacked boxes */
     }
+}
+
+#home-button {
+    position: absolute; /* למקם את הכפתור בצורה יחסית למיכל האב */
+    top: 10px; /* מרחק מלמעלה */
+    right: 10px; /* מרחק מצד ימין */
+    width: 50px; /* קוטר הכפתור */
+    height: 50px; /* קוטר הכפתור */
+    border-radius: 50%; /* עיגול הכפתור */
+    background-image: url('path/to/your/image.jpg'); /* תמונת הרקע */
+    background-size: cover; /* התמונה תכסה את כל הכפתור */
+    background-position: center; /* מיקום התמונה במרכז */
+    border: none; /* ללא גבולות */
+    cursor: pointer; /* סמן ליד כדי להצביע על אפשרות הקלקה */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* צל קטן להדגשה */
+    outline: none; /* ללא גבול סביב הכפתור */
+}
+
+/* הוספת סגנון לעכבר כשהוא מרחף מעל הכפתור */
+#home-button:hover {
+    opacity: 0.8; /* שינוי השקיפות בעת ריחוף */
 }

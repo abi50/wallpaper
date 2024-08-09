@@ -9,7 +9,7 @@ import imageRoutes from './routes/images.js';
 import authRoutes from './routes/auth.js';
 import cors from 'cors';
 import categoryRoutes from './routes/category.js';
-import { env } from 'process';
+// import { env } from 'process';
 const app = express();
 app.use(express.json()); 
 // Load environment variables
@@ -56,8 +56,12 @@ app.get('/home', (req, res) => {
 });
 app.get('/profile', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/views/profile.html'));
-});app.get('/register', (req, res) => {
+});
+app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/views/register.html'));
+});
+app.get('/image', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/views/image.html'));
 });
 
 app.get('/test', (req, res) => {

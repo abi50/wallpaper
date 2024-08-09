@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="container">
+        <button id="home-button" onclick="home()">home</button>
         <div class="box">
             <h1>Signup</h1>
             <label for="username">Username:</label>
@@ -19,7 +20,11 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required placeholder="Enter your password">
             <label for="profile">Profile:</label>
-            <input type="text" id="profile" name="profile" required placeholder="Enter your profile">
+            <input type="text" id="profile" name="profile" required placeholder="Enter your profile">  
+            <!-- Profile Image Upload -->
+            <label for="profileImage">Profile Image:</label>
+            <input type="file" id="profileImage" name="profileImage" accept="image/*">
+            
             <button type="submit" onclick="addUser()">Signup</button>
         </div>
         <div class="box">

@@ -4,6 +4,8 @@ import { getNextImageId } from '../utils/idGenerator.js';
 import Category from '../Model/categoryModel.js';
 //יצירת תמונה
 
+
+
 export const createImageService = async (req) => {
     const { userName, categories } = req.body;
     if (!userName) {
@@ -35,9 +37,14 @@ export const deleteImageByIdService = async (imageId) => {
 
 
 // פעולה שמחזירה תמונה לפי קוד
-export const getImageByCodeService = async (code) => {
-    const image = await Image.findOne({ imageId:code, isDeleted: false });
+export const getImageByCodeService = async (imageId) => {
+    const image = await Image.findOne({ imageId: imageId ,isDeleted: false});
+        console.log("in getumage");
+        console.log(imageId);
+
+        console.log("Image found:", image);
     if (!image) {
+        console.log("dudnt")
         throw new Error('Image not found');
     }
     return image;
