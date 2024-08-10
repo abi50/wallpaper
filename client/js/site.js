@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const pat="/uploads/"+localStorage.getItem("profile");
         console.log(pat);
         profilePic.src = `http://localhost:3000${pat}`;
-        // 1723172125051-patrick-aesthetic-mwk3787ydhbz4rsf.jpg
     }
     else{
         profilePic.src ="../images/profile.png";
@@ -119,12 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadImages(page, limit);
 
 
-
-
-
-
-
-
     // הצגת המודאל וטעינת הדף השני
     const modal = document.getElementById("myModal");
     const openModalButton = document.getElementById("openModal");
@@ -145,17 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-
-
 });
-// function loadScript(url) {
-//     console.log("in script");
-//     console.log(url);
-//     const script = document.createElement('script');
-//     script.src = url;
-//     script.defer = true;
-//     document.head.appendChild(script);
-// }
+
 function loadScript(url, callback) {
     const script = document.createElement('script');
     script.src = url;
@@ -208,74 +192,6 @@ function openModal() {
     }
 
 
-// function openModalImage(image){
-//      const modalBody = document.getElementById("modal-body");
-//      const modal = document.getElementById("myModal");
-//     // fetch('http://localhost:3000/image')  
-//     // .then(response => response.text())
-//     // .then(data => {
-//     //     modalBody.innerHTML = data;
-//     //     modal.style.display = "block";
-//     // });
-//     // window.location.href = 'http://localhost:3000/image';
-//     // loadImage(image)
-
-//     // const imageUrl = `http://localhost:3000/image?imageId=${image.imageId}&imageUrl=${encodeURIComponent(image.url)}`;
-//     localStorage.setItem("selectedImageId", image.imageId);
-//     // const imageUrl = `http://localhost:3000/image?imageId=${image.imageId}`;
-//     fetch('http://localhost:3000/image')
-//         .then(response => response.text())
-//         .then(data => {
-//             modalBody.innerHTML = data;
-//             modal.style.display = "block";
-//         });
-//         console.log("do script");
-
-//         const script = document.createElement('script');
-//             script.src = '../js/image.js';
-//             script.defer = true;
-//             script.onload = function() {
-//                 console.log("Image script loaded successfully.");
-//             };
-//             script.onerror = function() {
-//                 console.error("Failed to load the image script.");
-//             };
-//             document.head.appendChild(script);
-
-// }
-
-
-// async function loadImage(onimage) {
-   
-//         document.getElementById('main-image').src = onimage.url;
-//         document.getElementById('username').textContent = onimage.username;
-//         document.getElementById('user-profile-pic').src = onimage.userProfilePic;
-//         document.getElementById('likes').textContent = onimage.likes;
-      
-
-//         document.getElementById('download-button').addEventListener('click', async() => {
-//             // try {
-//             //     const response = await fetch(`http://localhost:3000/images/download/${imageId}`);
-//             //     if (response.ok) {
-//             //         // Create a link element, set its href to the URL of the file, and simulate a click
-//             //         const link = document.createElement('a');
-//             //         link.href = `http://localhost:3000/images/download/${imageId}`;
-//             //         link.download = `${imageId}.jpg`;
-//             //         document.body.appendChild(link);
-//             //         link.click();
-//             //         document.body.removeChild(link);
-//             //     } else {
-//             //         console.error('Failed to download image:', response.statusText);
-//             //     }
-//             // } catch (error) {
-//             //     console.error('Error downloading image:', error);
-//             // }
-
-//             downloadImage(onimage.imageId);
-//         });
-     
-// }
-
 
 
 
@@ -290,9 +206,7 @@ const likeImage = async (event, imageId) => {
 
         if (response.ok) {
             const updatedImage = await response.json();
-            // // const button=document.getElementById("likeButton");
-            // event.target.classList.add('animate-like');
-            // setTimeout(() =>  event.target.classList.remove('animate-like'), 1000);
+          
             alert(`Liked image ${imageId}.`);
         } else {
             alert('Failed to like image. Please try again.');

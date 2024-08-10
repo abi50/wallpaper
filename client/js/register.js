@@ -70,14 +70,7 @@ async function addUser() {
 
 
     try {
-        // const imageUploadResponse = await fetch('http://localhost:3000/images/upload', {
-        //     method: 'POST',
-        //     body: formData
-        // });
-
-        // if (!imageUploadResponse.ok) {
-        //     throw new Error('Image upload failed');
-        // }
+        
         console.log("Sending request to server");
         const response = await fetch('http://localhost:3000/images/upload', {
             method: 'POST',
@@ -88,10 +81,7 @@ async function addUser() {
             alert('Image uploaded successfully');
            
 
-        // const imageUploadData = await imageUploadResponse.json();
-        // const profileImageUrl = imageUploadData.imageUrl;
-
-        // Save user info along with the profile image URL
+        
         const userResponse = await fetch('http://localhost:3000/auth/register', {
             method: 'POST',
             headers: {
@@ -131,86 +121,6 @@ async function addUser() {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function addUser() {
-//     console.log("enters in adduser");
-//     let name = document.getElementById('username').value;
-//     let email = document.getElementById('email').value;
-//     let password = document.getElementById('password').value;
-//     let profileImage = document.getElementById('profileImage').files[0]; // Assuming the profile image is uploaded through a file input
-
-//     if (!profileImage) {
-//         alert("Please select a profile image.");
-//         return;
-//     }
-//     console.log(profileImage.name);
-//     // Upload the profile image
-//     const formData = new FormData();
-//     formData.append('image', profileImage);
-
-//     $.ajax({
-//         url: 'http://localhost:3000/images/upload',
-//         method: 'POST',
-//         data: formData,
-//         contentType: false,
-//         processData: false,
-//         success: function (response) {
-//             // Save user info along with the profile image URL
-//             const profileImageUrl = response.imageUrl;
-//             console.log("ghjkl., bnm");
-
-//             $.ajax({
-//                 url: "http://localhost:3000/auth/register",
-//                 method: "POST",
-//                 headers: {
-//                     "Content-Type": "application/json"
-//                 },
-//                 data: JSON.stringify({
-//                     "name": name,
-//                     "email": email,
-//                     "password": password,
-//                     "profile": profileImageUrl
-//                 }),
-//                 success: function (response) {
-//                     console.log("start ajax");
-//                     localStorage.setItem("token", response.token);
-//                     localStorage.setItem("userid", response.user.userId);
-//                     localStorage.setItem("userName", response.user.name);
-//                     localStorage.setItem("profile", profileImageUrl);
-//                     console.log("add success");
-//                     window.location.href = "../views/site.html";
-//                 },
-//                 error: function (jqXHR, textStatus, errorThrown) {
-//                     console.log(jqXHR.status);
-//                     if (jqXHR.status === 400) {
-//                         alert("Please enter a valid email, user creation failed");
-//                     } else {
-//                         console.error("Error:", errorThrown);
-//                     }
-//                 }
-//             });
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-//             console.error("Image upload error:", errorThrown);
-//         }
-//     });
-// }
 
 function login(){
     console.log("enter in login")
