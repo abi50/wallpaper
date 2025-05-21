@@ -1,63 +1,69 @@
 
-# Wallpaper Project
+# Wallpaper Project 
 
-This is a full-stack image upload and sharing platform that allows registered users to upload, view, download, and manage wallpapers. It includes user authentication, category filtering, and personal image collections.
+Full-stack web application for uploading, viewing, and downloading wallpapers. Designed for registered users to manage personal image collections, search by categories, and interact with images.
 
-## 🛠 Tech Stack
+---
 
-- **Frontend**: HTML, CSS, JavaScript
+## Tech Stack
+
+- **Frontend**: HTML, CSS, JavaScript (Vanilla)
 - **Backend**: Node.js, Express.js
-- **Database**: MongoDB with Mongoose ODM
-- **Authentication**: JWT-based login and registration
-- **File Upload**: Multer middleware
-- **Other Tools**: dotenv, bcrypt, uuid, cors
+- **Database**: MongoDB (with Mongoose)
+- **Authentication**: JWT, bcrypt
+- **File Upload**: Multer
+- **Other Tools**: dotenv, uuid, CORS, nodemon
 
-## 📁 Project Structure
+---
+
+##  Features
+
+-  User registration and login with hashed passwords
+-  JWT-based authentication and protected routes
+-  Upload wallpapers with category selection
+-  View all images, filter by categories
+-  Download, like, favorite, and add images to collections
+-  Soft delete logic for categories and images
+-  Admin-level category creation (via code)
+
+---
+
+##  Project Structure
 
 ```
 wallpaperProject/
-├── client/               # Frontend files
-│   ├── css/              # CSS files
-│   ├── js/               # JavaScript files
-│   └── views/            # HTML pages
-├── server/               # Backend server
+├── client/               # HTML, CSS, JS files
+│   ├── css/
+│   ├── js/
+│   └── views/
+├── server/
 │   ├── DB/               # MongoDB connection
 │   ├── Model/            # Mongoose schemas
-│   ├── controler/        # Route logic (controllers)
-│   ├── middleware/       # Authentication middleware
-│   ├── routes/           # Express routes
+│   ├── controller/       # Controllers (logic)
+│   ├── routes/           # API routes
 │   ├── services/         # Business logic
-│   ├── utils/            # ID generator
-│   └── app.js            # Main app entry point
+│   ├── middleware/       # Auth middleware
+│   ├── utils/            # ID generators
+│   ├── .env              # Local secrets (not committed)
+│   └── app.js            # Entry point
 ```
 
-## ✅ Features
+---
 
-- User registration and login
-- JWT authentication
-- Image upload and download
-- Search by category
-- Manage personal collections and favorites
-- Admin-like category management
-- Soft deletion of categories and images
+##  Setup Instructions
 
-## 🚀 How to Run
-
-1. Clone the repository
-2. Navigate to the `server` folder and run:
-
+1. Clone the repository:
 ```bash
-npm install
-npm start
+git clone https://github.com/abi50/wallpaper.git
 ```
 
-3. Open `client/views/site.html` in the browser to interact with the frontend
+2. Navigate to the server folder:
+```bash
+cd wallpaperProject/server
+npm install
+```
 
-4. Make sure MongoDB is running locally, or update `.env` with your connection string.
-
-## 📂 Environment Variables
-
-Create a `.env` file in the `server` folder:
+3. Create a `.env` file in the `server` directory with the following content:
 
 ```
 MONGO_URL=mongodb://localhost:27017/wallpaperDB
@@ -65,6 +71,25 @@ JWT_SECRET=your_secret_key
 PORT=3000
 ```
 
+4. Run the backend:
+```bash
+npm start
+```
+
+5. Open `client/views/site.html` in your browser to view the UI.
+
 ---
 
-Developed with ❤️ as a full-stack practice project.
+## Future Improvements
+
+- [ ] Add tests (unit/integration)
+- [ ] Deploy live demo using Render or Vercel
+- [ ] Switch frontend to React or another modern framework
+- [ ] Responsive design for mobile
+
+---
+
+
+##  Author
+
+Developed by Abigail Berk - a junior full-stack developer as a personal project to practice clean architecture, authentication, file uploads, and database integration.
